@@ -1,0 +1,5 @@
+_target_: watchmal.engine.classification.ClassifierEngine
+target_key: 'fully_contained'
+label_set:
+  - 0
+  - 1

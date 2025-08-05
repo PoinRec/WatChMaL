@@ -1,0 +1,27 @@
+defaults:
+  - wcte_defaults
+  - engine: regression
+  - override loss@tasks.train.loss: huber_momentum
+  - _self_
+
+engine:
+  target_key:
+    - energies
+
+model:
+  num_output_channels: 1
+
+hydra:
+  run:
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/energy_e_${now:%Y-%m-%d_%H:%M:%S}/
+
+data:
+  split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_e.npz
+
+tasks:
+  train:
+    epochs: 40
+    optimizers:
+      lr: 0.02
+
+

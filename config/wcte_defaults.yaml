@@ -1,0 +1,40 @@
+defaults:
+  - data: wcte_data
+  - model: resnet50
+  - tasks/train: train_resnet
+  - tasks/restore_best_state: restore_best_state
+  - tasks/evaluate: test
+  - override optimizers@tasks.train.optimizers: adamW
+
+tasks:
+  train:
+    epochs: 80
+    val_interval: 10
+    num_val_batches: 40
+    checkpointing: False
+    data_loaders:
+      train:
+        batch_size: 1024
+        num_workers: 8
+        # pre_transforms: []
+      validation:
+        batch_size: 1024
+        num_workers: 8
+  evaluate:
+    data_loaders:
+      test:
+        batch_size: 1024
+        num_workers: 8
+        
+gpu_list: [0, 1, 2, 3] # train on GPUs
+seed: 42
+dump_path: './outputs/'
+
+hydra:
+  job:
+    chdir: True
+
+data:
+  dataset:
+    default_transformation: true
+    use_new_mpmt_convention: true

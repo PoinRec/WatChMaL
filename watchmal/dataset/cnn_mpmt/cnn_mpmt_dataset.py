@@ -48,7 +48,7 @@ class CNNmPMTDataset(H5Dataset):
     with mPMTs arrange in an event-display-like format.
     """
 
-    def __init__(self, h5file, mpmt_positions_file, transforms=None, use_new_mpmt_convention=False, channels=None,
+    def __init__(self, h5file, mpmt_positions_file, transforms=None, use_new_mpmt_convention=False, default_transformation=False, channels=None,
                  collapse_mpmt_channels=None, channel_scale_factor=None, channel_scale_offset=None, geometry_file=None,
                  use_memmap=True):
         """
@@ -91,6 +91,7 @@ class CNNmPMTDataset(H5Dataset):
         super().__init__(h5file, use_memmap)
 
         self.use_new_mpmt_convention = use_new_mpmt_convention
+        self.default_transformation = default_transformation
         if self.use_new_mpmt_convention:
             self.barrel_mpmt_map = BARREL_MPMT_MAP_NEW
             self.vertical_flip_mpmt_map = VERTICAL_FLIP_MPMT_MAP_NEW
@@ -99,6 +100,8 @@ class CNNmPMTDataset(H5Dataset):
             self.barrel_mpmt_map = BARREL_MPMT_MAP
             self.vertical_flip_mpmt_map = VERTICAL_FLIP_MPMT_MAP
             self.horizontal_flip_mpmt_map = HORIZONTAL_FLIP_MPMT_MAP
+        if self.default_transformation:
+            self.rotate_permutation_pmts = self.horizontal_flip_mpmt_map[self.vertical_flip_mpmt_map]
         self.mpmt_positions = np.load(mpmt_positions_file)['mpmt_image_positions']
         self.transforms = du.get_transformations(self, transforms)
         if self.transforms is None:
@@ -120,7 +123,7 @@ class CNNmPMTDataset(H5Dataset):
         rows, row_counts = np.unique(self.mpmt_positions[:, 0], return_counts=True)  # count occurrences of each row
         cols, col_counts = np.unique(self.mpmt_positions[:, 1], return_counts=True)  # count occurrences of each column
         # barrel rows are those where the row appears in mpmt_positions as many times as the image width
-        barrel_rows = rows[row_counts == self.image_width]
+        barrel_rows = rows[row_counts > 10]
         # endcap size is the number of rows before the first barrel row
         self.endcap_size = np.min(barrel_rows)
         self.barrel = np.s_[..., self.endcap_size:np.max(barrel_rows) + 1, :]
@@ -196,12 +199,18 @@ class CNNmPMTDataset(H5Dataset):
         # fix indexing of barrel PMTs in mPMT modules to match that of endcaps in the projection to 2D
         data[self.barrel] = data[self.barrel_mpmt_map][self.barrel]
 
+        if self.default_transformation:
+            for mpmt_id in [45,46,47,53,54,55,56,57,64,65,81,82,83,84,89,90,91,92,93,94]:
+                row = self.mpmt_positions[mpmt_id][0]
+                col = self.mpmt_positions[mpmt_id][1]
+                data[:, :, row, col] = data[:, :, row, col][self.rotate_permutation_pmts]
+
         return data
 
     def __getitem__(self, item):
         """Returns image-like event data array (channels, rows, columns) for an event at a given index."""
         data_dict = super().__getitem__(item)
-        hit_data = {"charge": self.event_hit_charges, "time": self.event_hit_times}
+        hit_data = {"charge": self.event_hit_charges, "time": self.event_hit_times, "is_hit": np.ones_like(self.event_hit_times)}
         # apply scaling to channels
         for c in hit_data:
             hit_data[c] = (hit_data[c] - self.scale_offset.get(c, 0))/self.scale_factor.get(c, 1)

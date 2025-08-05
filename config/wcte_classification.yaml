@@ -1,0 +1,20 @@
+defaults:
+  - wcte_defaults
+  - engine: classifier
+  - _self_
+
+engine:
+  label_set:
+    - 1
+    - 2
+
+hydra:
+  run:
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/classification_${now:%Y-%m-%d_%H:%M:%S}/
+
+data:
+  split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_classification.npz
+
+tasks:
+  train:
+    epochs: 50

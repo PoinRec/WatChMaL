@@ -1,0 +1,7 @@
+defaults:
+  - dataset: cnn_mpmt
+split_path: /home/zhihao/Data/WCTE_data_fixed/new_split_list.npz
+dataset:
+  h5file: /home/zhihao/Data/WCTE_data_fixed/wcte_CDS_pgun_e-_3M_mu-_3M_0to1GeV_fixedFC.h5
+  mpmt_positions_file: /home/zhihao/Data/WCTE_data_fixed/WCTE_mPMT_image_positions_v3.npz
+  geometry_file: /home/zhihao/Data/WCTE_data_fixed/geofile_wcte.npz
