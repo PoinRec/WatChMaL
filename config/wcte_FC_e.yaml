@@ -11,7 +11,7 @@ hydra:
 data:
   dataset:
     h5file: /home/zhihao/Data/WCTE_data_fixed/FC_wcte_CDS_pgun_e-_3M_mu-_3M_0to1GeV_fixedFC.h5
-  split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_e_FC.npz
+  split_path: /home/zhihao/Data/WCTE_data_fixed/Splitting/split_list_e_FC.npz
 
 tasks:
   train:

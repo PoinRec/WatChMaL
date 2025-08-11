@@ -8,7 +8,7 @@ hydra:
     dir: /home/zhihao/Data/WCTE_data_fixed/Output/classification_run/
 
 data:
-  split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_classification.npz
+  split_path: /home/zhihao/Data/WCTE_data_fixed/Splitting/split_list_classification.npz
 
 tasks:
   train:
