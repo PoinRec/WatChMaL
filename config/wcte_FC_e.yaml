@@ -3,18 +3,21 @@ defaults:
   - engine: FCclassifier
   - _self_
 
-model:
-  num_output_channels: 2
-
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_data_fixed/Output/FC_mu_${now:%Y-%m-%d_%H:%M:%S}/
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/FC_e_run/
+
 
 data:
   dataset:
     h5file: /home/zhihao/Data/WCTE_data_fixed/FC_wcte_CDS_pgun_e-_3M_mu-_3M_0to1GeV_fixedFC.h5
-  split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_mu_FC.npz
+  split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_e_FC.npz
 
 tasks:
   train:
+    optimizers:
+      lr: 0.002
     epochs: 20
+
+model:
+  num_output_channels: 2

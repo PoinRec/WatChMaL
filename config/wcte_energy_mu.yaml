@@ -4,23 +4,25 @@ defaults:
   - override loss@tasks.train.loss: huber
   - _self_
 
-engine:
-  target_key:
-    - energies
-
-model:
-  num_output_channels: 1
-
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_data_fixed/Output/energy_mu_${now:%Y-%m-%d_%H:%M:%S}/
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/energy_mu_run/
+
 
 data:
   split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_mu.npz
+
+model:
+  num_output_channels: 1
 
 tasks:
   train:
     epochs: 60
     loss:
-      delta: 15
+      delta: 8
+
+
+engine:
+  target_key:
+    - energies
 

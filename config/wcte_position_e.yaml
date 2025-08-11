@@ -4,26 +4,29 @@ defaults:
   - override loss@tasks.train.loss: huber
   - _self_
 
-engine:
-  target_key:
-    - positions
-  target_scale_factor:
-    positions: 1
-
-model:
-  num_output_channels: 3
-
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_data_fixed/Output/position_e_${now:%Y-%m-%d_%H:%M:%S}/
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/position_e_run/
+
 
 data:
   split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_e.npz
 
+model:
+  num_output_channels: 3
 
 tasks:
   train:
-    epochs: 200
     loss:
-      delta: 15
+      delta: 6
+    data_loaders:
+      train:
+        pre_transforms: []
+    epochs: 40
+
+
+engine:
+  target_key:
+    - positions
+
 

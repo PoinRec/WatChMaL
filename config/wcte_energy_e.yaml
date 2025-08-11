@@ -4,24 +4,23 @@ defaults:
   - override loss@tasks.train.loss: huber_momentum
   - _self_
 
-engine:
-  target_key:
-    - energies
-
-model:
-  num_output_channels: 1
-
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_data_fixed/Output/energy_e_${now:%Y-%m-%d_%H:%M:%S}/
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/energy_e_run/
+
 
 data:
   split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_e.npz
 
+model:
+  num_output_channels: 1
+
 tasks:
   train:
-    epochs: 40
-    optimizers:
-      lr: 0.02
+    epochs: 60
 
+
+engine:
+  target_key:
+    - energies
 

@@ -3,12 +3,10 @@ defaults:
   - engine: FCclassifier
   - _self_
 
-model:
-  num_output_channels: 2
-
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_data_fixed/Output/FC_mu_${now:%Y-%m-%d_%H:%M:%S}/
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/FC_mu_run/
+
 
 data:
   dataset:
@@ -17,4 +15,9 @@ data:
 
 tasks:
   train:
+    optimizers:
+      lr: 0.002
     epochs: 20
+
+model:
+  num_output_channels: 2

@@ -3,18 +3,21 @@ defaults:
   - engine: classifier
   - _self_
 
-engine:
-  label_set:
-    - 1
-    - 2
-
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_data_fixed/Output/classification_${now:%Y-%m-%d_%H:%M:%S}/
+    dir: /home/zhihao/Data/WCTE_data_fixed/Output/classification_run/
 
 data:
   split_path: /home/zhihao/Data/WCTE_data_fixed/split_list_classification.npz
 
 tasks:
   train:
+    optimizers:
+      lr: 0.002
     epochs: 50
+
+
+engine:
+  label_set:
+    - 1
+    - 2
