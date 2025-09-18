@@ -1,0 +1,25 @@
+defaults:
+  - data: wcte_calibration_run
+  - model: resnet50
+  - engine: classifier
+  - tasks/restore_state: restore_classification
+  - tasks/predict: test
+  - _self_
+
+hydra:
+  run:
+    dir: /home/zhihao/Data/WCTE_calibration_run/Predict/classification/
+  job:
+    chdir: True
+
+
+data:
+  dataset:
+    default_transformation: true
+    use_new_mpmt_convention: true
+  split_path: /home/zhihao/Data/WCTE_calibration_run/dummy_split_list.npz
+  
+
+gpu_list: [0, 1, 2, 3] # test on 4 GPUs
+seed: 42
+dump_path: './outputs/'

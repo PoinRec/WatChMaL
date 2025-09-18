@@ -1,0 +1,6 @@
+defaults:
+  - dataset: cnn_mpmt
+dataset:
+  h5file: /home/zhihao/Data/WCTE_calibration_run/out_1766.h5
+  mpmt_positions_file: /home/zhihao/Data/WCTE_general_files/WCTE_mPMT_image_positions_v3.npz
+  geometry_file: /home/zhihao/Data/WCTE_general_files/wcte_geometry.npz

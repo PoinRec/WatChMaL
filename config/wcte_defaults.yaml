@@ -1,5 +1,5 @@
 defaults:
-  - data: wcte_data
+  - data: wcte_mc_data
   - model: resnet50
   - tasks/train: train_resnet
   - tasks/restore_best_state: restore_best_state

@@ -2,6 +2,7 @@ defaults:
   - wcte_defaults
   - engine: regression
   - override loss@tasks.train.loss: huber_momentum
+  - override loss@tasks.evaluate.loss: huber_momentum
   - _self_
 
 hydra:
