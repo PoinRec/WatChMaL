@@ -8,7 +8,7 @@ defaults:
 
 hydra:
   run:
-    dir: /home/zhihao/Data/WCTE_calibration_run/Predict/energy/
+    dir: /home/zhihao/Data/WCTE_calibration_run/Predict/energy_mu/
   job:
     chdir: True
 
